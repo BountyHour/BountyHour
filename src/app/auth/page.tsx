@@ -2,6 +2,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
 import { CreatePost } from "@/app/_components/create-post";
+import { DeletePost } from "@/app/_components/delete-post";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 import { late } from "zod";
@@ -72,8 +73,8 @@ async function ReadPost() {
       <h3 className="text-2xl font-bold">Reading Post</h3>
       {last5Posts.length > 0 ? (
         last5Posts.map((item) => (
-          <p className="truncate">
-            Post: <i>{item.name}</i>
+          <p key={item.id} className="truncate">
+            Post: <i>{item.name}</i> <DeletePost id={item.id} />
             <br />
             {item.createdAt.toLocaleString()}
           </p>
