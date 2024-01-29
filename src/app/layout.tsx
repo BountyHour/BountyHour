@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -23,9 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-background min-h-screen font-sans antialiased ${inter.variable}`}
+        className={`min-h-screen bg-background font-sans antialiased ${inter.variable}`}
       >
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

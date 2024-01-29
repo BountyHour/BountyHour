@@ -18,6 +18,7 @@
 
 - [T3 Stack (Project Base)](https://create.t3.gg/)
 - [shadcn (UI)](https://ui.shadcn.com/)
+- [Lucide (Icons)](https://lucide.dev/)
 
 ## Technical
 
@@ -68,3 +69,9 @@
 - `profile/`: Everything profile related
   - `/`: Current user's profile
   - `[id]`: Viewing specific user's profile
+
+## Todo
+
+- Create an actual design for login / register / logout / etc
+- Play around with auth, look up guides for doing it well
+- Email verification?
