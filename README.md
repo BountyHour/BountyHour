@@ -11,7 +11,7 @@
 - [Next.js (Framework)](https://nextjs.org)
 - [NextAuth.js (Authentication)](https://next-auth.js.org)
 - [Prisma (ORM)](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
+- [Tailwind (CSS)](https://tailwindcss.com)
 - [tRPC (API)](https://trpc.io)
 
 ### Resources
@@ -31,4 +31,4 @@
   - `Bounty`: Core entity, changes status and contains / references all relevant data
   - `Message`: Messages between bounty poster and hunter(s), may be automatic (e.g. on bounty submit)
   - `Attachments`: Optional attachments to a message
-  - `History`: Timestamped records of state changes
+  - `History`: Timestamped records of bounty state changes

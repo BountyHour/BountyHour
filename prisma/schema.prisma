@@ -46,7 +46,8 @@ model User {
     accounts         Account[]
     sessions         Session[]
     posts            Post[]
-    bounties         Bounty[]
+    createdBounties  Bounty[]  @relation("CreatedBy")
+    assignedBounties Bounty[]  @relation("AssignedTo")
     sentMessages     Message[] @relation("SentMessages")
     receivedMessages Message[] @relation("ReceivedMessages")
 }
@@ -87,8 +88,11 @@ model Bounty {
     createdAt     DateTime     @default(now())
     updatedAt     DateTime     @updatedAt
     messages      Message[]    @relation()
-    createdBy     User         @relation(fields: [createdById], references: [id])
+    tags          Tag[]        @relation()
+    createdBy     User         @relation("CreatedBy", fields: [createdById], references: [id])
     createdById   String
+    assignedTo    User?        @relation("AssignedTo", fields: [assignedToId], references: [id])
+    assignedToId  String?
     statusHistory History[]
 
     @@index([createdById])
@@ -128,4 +132,12 @@ model History {
     createdAt DateTime     @default(now())
 
     @@index([createdAt])
+}
+
+model Tag {
+    id        Int      @id @default(autoincrement())
+    name      String   @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    bounties  Bounty[] @relation()
 }
