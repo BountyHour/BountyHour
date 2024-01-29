@@ -69,9 +69,3 @@
 - `profile/`: Everything profile related
   - `/`: Current user's profile
   - `[id]`: Viewing specific user's profile
-
-## Todo
-
-- Create an actual design for login / register / logout / etc
-- Play around with auth, look up guides for doing it well
-- Email verification?

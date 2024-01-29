@@ -45,7 +45,7 @@ export function DemoCreateAccount() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" />
+          <Input id="email" type="email" placeholder="me@bountyhour.com" />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Password</Label>
