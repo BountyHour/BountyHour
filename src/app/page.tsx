@@ -1,8 +1,8 @@
 import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
-import { CreatePost } from "@/app/_components/create-post";
-import { DeletePost } from "@/app/_components/delete-post";
+import { CreatePost } from "@/components/create-post";
+import { DeletePost } from "@/components/delete-post";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 import { late } from "zod";
