@@ -1,28 +1,34 @@
-# Create T3 App
+# BountyHour
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Links
 
-## What's next? How do I make an app with this?
+- [Tasks (Linear)](https://linear.app/bountyhour/)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Technical
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+### Stack
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
+- [Next.js (Framework)](https://nextjs.org)
+- [NextAuth.js (Authentication)](https://next-auth.js.org)
+- [Prisma (ORM)](https://prisma.io)
 - [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- [tRPC (API)](https://trpc.io)
 
-## Learn More
+### Resources
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- [T3 Stack (Project Base)](https://create.t3.gg/)
+- [shadcn (UI)](https://ui.shadcn.com/)
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Entities
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- Managed by NextAuth
+  - `Account`: Tokens & refreshing
+  - `Session`: Sessions & expiring
+  - `VerificationToken`: For future 2FA / email verification
+- User
+  - `User`: Profile, connects to all site entities
+- Bounty
+  - `Bounty`: Core entity, changes status and contains / references all relevant data
+  - `Message`: Messages between bounty poster and hunter(s), may be automatic (e.g. on bounty submit)
+  - `Attachments`: Optional attachments to a message
+  - `History`: Timestamped records of state changes

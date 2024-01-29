@@ -38,16 +38,17 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
-    bounties      Bounty[]
-    Message       Message[]
+    id               String    @id @default(cuid())
+    name             String?
+    email            String?   @unique
+    emailVerified    DateTime?
+    image            String?
+    accounts         Account[]
+    sessions         Session[]
+    posts            Post[]
+    bounties         Bounty[]
+    sentMessages     Message[] @relation("SentMessages")
+    receivedMessages Message[] @relation("ReceivedMessages")
 }
 
 model VerificationToken {
@@ -58,53 +59,73 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// Non-auth DB tables
 model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
+    id          Int      @id @default(autoincrement())
+    name        String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    createdBy   User     @relation(fields: [createdById], references: [id])
     createdById String
 
     @@index([name])
 }
 
 enum BountyStatus {
-    DRAFT
-    OPEN
-    IN_PROGRESS
-    SUBMITTED
-    COMPLETED
-    FAILED
+    DRAFT // Partially prepared, but not listed yet.
+    OPEN // Listed, and able to be picked up.
+    IN_PROGRESS // Currently being worked on, nobody else can pick it up.
+    SUBMITTED // Specialist has submitted their solution, it has not been accepted yet.
+    COMPLETED // Submitter has accepted the solution, contract is complete. Optionally give bonus.
+    FAILED // Specialist ran out of time, or manually gave up. Can now go back into "Open".
 }
 
 model Bounty {
-    id               Int          @id @default(autoincrement())
-    status           BountyStatus @default(DRAFT)
-    title            String
-    description      String
-    createdAt        DateTime     @default(now())
-    updatedAt        DateTime     @updatedAt
-    messagesAuthored Message[]    @relation("author")
-    messagesReceived Message[]    @relation("recipient")
+    id            Int          @id @default(autoincrement())
+    status        BountyStatus @default(DRAFT)
+    title         String
+    description   String
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    messages      Message[]    @relation()
+    createdBy     User         @relation(fields: [createdById], references: [id])
+    createdById   String
+    statusHistory History[]
 
-    createdBy   User      @relation(fields: [createdById], references: [id])
-    createdById String
-    Message     Message[]
+    @@index([createdById])
 }
 
 model Message {
-    id          Int    @id @default(autoincrement())
-    text        String
-    author      User   @relation(fields: [authorId], references: [id])
-    authorId    String
-    recipient   User   @relation(fields: [recipientId], references: [id])
-    recipientId String
-    bounty      Bounty @relation(fields: [bountyId], references: [id])
+    id          Int          @id @default(autoincrement())
+    bounty      Bounty       @relation(fields: [bountyId], references: [id])
     bountyId    Int
-    Bounty      Bounty @relation(fields: [bountyId], references: [id])
-    Bounty      Bounty @relation(fields: [bountyId], references: [id])
-    Bounty      Bounty @relation(fields: [bountyId], references: [id])
+    text        String
+    author      User         @relation("SentMessages", fields: [authorId], references: [id])
+    authorId    String
+    recipient   User         @relation("ReceivedMessages", fields: [recipientId], references: [id])
+    recipientId String
+    isAutomated Boolean      @default(false)
+    attachments Attachment[]
+    createdAt   DateTime     @default(now())
+
+    @@index([createdAt])
+}
+
+model Attachment {
+    id        Int      @id @default(autoincrement())
+    message   Message  @relation(fields: [messageId], references: [id])
+    messageId Int
+    url       String
+    createdAt DateTime @default(now())
+
+    @@index([createdAt])
+}
+
+model History {
+    id        Int          @id @default(autoincrement())
+    bounty    Bounty       @relation(fields: [bountyId], references: [id])
+    bountyId  Int
+    status    BountyStatus
+    createdAt DateTime     @default(now())
+
+    @@index([createdAt])
 }
