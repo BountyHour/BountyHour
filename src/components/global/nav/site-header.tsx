@@ -26,7 +26,7 @@ export function SiteHeader() {
                   buttonVariants({
                     variant: "ghost",
                   }),
-                  "w-9 px-0",
+                  "hidden w-9 px-0 sm:inline-flex",
                 )}
               >
                 <Github className="h-4 w-4" />
@@ -39,7 +39,7 @@ export function SiteHeader() {
                   buttonVariants({
                     variant: "ghost",
                   }),
-                  "w-9 px-0",
+                  "hidden w-9 px-0 sm:inline-flex",
                 )}
               >
                 <Twitter className="h-3 w-3 fill-current" />
