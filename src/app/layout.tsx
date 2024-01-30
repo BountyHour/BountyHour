@@ -36,7 +36,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <TRPCReactProvider>
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
-                <div className="flex-1">{children}</div>
+                <div className="container max-w-screen-2xl flex-1">
+                  {children}
+                </div>
               </div>
             </TRPCReactProvider>
           </ThemeProvider>
