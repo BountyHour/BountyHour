@@ -1,13 +1,10 @@
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
 import { MainNav } from "@/components/global/nav/main-nav";
 import { ModeToggle } from "@/components/global/lightdark/mode-toggle";
-import { buttonVariants } from "@/components/ui/button";
-import { Github, Twitter } from "lucide-react";
-import { unstable_noStore as noStore } from "next/cache";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getServerAuthSession } from "@/server/auth";
+import { Session } from "next-auth";
 
 export async function SiteHeader() {
   const session = await getServerAuthSession();
@@ -20,7 +17,8 @@ export async function SiteHeader() {
             {/*<CommandMenu /> // For now, no search */}
           </div>
           <nav className="flex items-center">
-            <Link href="/" className="mr-6 flex items-center">
+            <LoggedInAvatar session={session} />
+            <Link href="/" className="mr-4">
               {session ? "Sign out" : "Sign in"}
             </Link>
             <ModeToggle />
@@ -29,4 +27,18 @@ export async function SiteHeader() {
       </div>
     </header>
   );
+}
+
+export function LoggedInAvatar({ session }: { session: Session | null }) {
+  if (session?.user?.image != null && session?.user?.name != null) {
+    return (
+      <Link href="/account">
+        <Avatar className="mr-4">
+          <AvatarImage src={session.user.image} alt={session.user.name} />
+          <AvatarFallback>{session.user.name.slice(0, 2)}</AvatarFallback>
+        </Avatar>
+      </Link>
+    );
+  }
+  return;
 }
