@@ -2,14 +2,13 @@ import { Metadata } from "next";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { ModeToggle } from "@/components/global/lightdark/mode-toggle";
 
 import Link from "next/link";
 import { DemoCreateAccount } from "@/components/example/create-account";
 
 export const metadata: Metadata = {
   title: "Register",
-  description: "Register for a BountyHunt account.",
+  description: "Register for a BountyHour account.",
 };
 
 export default function AuthenticationPage() {
@@ -27,9 +26,6 @@ export default function AuthenticationPage() {
         </Link>
         <div className="relative hidden min-h-screen flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900" />
-          <div className="relative m-2">
-            <ModeToggle />
-          </div>
           <div className="relative z-20 flex items-center text-lg font-medium">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +39,7 @@ export default function AuthenticationPage() {
             >
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
-            Bounty<b className="text-primary">Hour</b>
+            Something useful should go here.
             <div></div>
           </div>
           <div className="relative z-20 mt-auto">
