@@ -14,8 +14,6 @@ import {
 } from "lucide-react";
 
 export function MainNav() {
-  const pathname = usePathname();
-
   return (
     <>
       <div className="mr-4 flex">

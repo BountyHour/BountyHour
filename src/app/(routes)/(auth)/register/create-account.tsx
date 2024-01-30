@@ -70,7 +70,7 @@ export function FormCreateAccount() {
         <Button className="w-full">Create account</Button>
       </CardFooter>
       <p className="px-8 pb-8 text-center text-sm text-muted-foreground">
-        By clicking continue, you agree to our{" "}
+        By registering, you agree to our{" "}
         <Link
           href="/terms"
           className="underline underline-offset-4 hover:text-primary"

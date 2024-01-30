@@ -1,9 +1,4 @@
 import { Metadata } from "next";
-
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-
-import Link from "next/link";
 import { FormCreateAccount } from "@/app/(routes)/(auth)/register/create-account";
 
 export const metadata: Metadata = {
@@ -11,7 +6,7 @@ export const metadata: Metadata = {
   description: "Register for a BountyHour account.",
 };
 
-export default function AuthenticationPage() {
+export default function RegisterPage() {
   return (
     <>
       <div className="container relative grid flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -31,7 +26,6 @@ export default function AuthenticationPage() {
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
             Something useful should go here.
-            <div></div>
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
