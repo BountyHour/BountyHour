@@ -5,8 +5,12 @@ import { MainNav } from "@/components/global/nav/main-nav";
 import { ModeToggle } from "@/components/global/lightdark/mode-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { Github, Twitter } from "lucide-react";
+import { unstable_noStore as noStore } from "next/cache";
 
-export function SiteHeader() {
+import { getServerAuthSession } from "@/server/auth";
+
+export async function SiteHeader() {
+  const session = await getServerAuthSession();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center">
@@ -16,35 +20,8 @@ export function SiteHeader() {
             {/*<CommandMenu /> // For now, no search */}
           </div>
           <nav className="flex items-center">
-            <Link
-              href="https://github.com/bountyhour"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                  "hidden w-9 px-0 sm:inline-flex",
-                )}
-              >
-                <Github className="h-4 w-4" />
-                <span className="sr-only">GitHub</span>
-              </div>
-            </Link>
-            <Link href="https://twitter.com" target="_blank" rel="noreferrer">
-              <div
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                  "hidden w-9 px-0 sm:inline-flex",
-                )}
-              >
-                <Twitter className="h-3 w-3 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
+            <Link href="/" className="mr-6 flex items-center">
+              {session ? "Sign out" : "Sign in"}
             </Link>
             <ModeToggle />
           </nav>
