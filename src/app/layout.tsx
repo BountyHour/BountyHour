@@ -1,8 +1,9 @@
 import "@/styles/globals.css";
 
+import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-
+import { ThemeProvider } from "@/components/global/lightdark/theme-provider";
+import { SiteHeader } from "@/components/global/nav/site-header";
 import { TRPCReactProvider } from "@/trpc/react";
 
 const inter = Inter({
@@ -16,25 +17,31 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      <body
-        className={`min-h-screen bg-background font-sans antialiased ${inter.variable}`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
+    <>
+      <html lang="en" suppressHydrationWarning>
+        <head />
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            inter.variable,
+          )}
         >
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <TRPCReactProvider>
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <div className="flex-1">{children}</div>
+              </div>
+            </TRPCReactProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </>
   );
 }

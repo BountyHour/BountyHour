@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
+import { ModeToggle } from "@/components/global/lightdark/mode-toggle";
 
 import Link from "next/link";
 import { DemoCreateAccount } from "@/components/example/create-account";
