@@ -12,7 +12,7 @@ export function FormLogout() {
       </CardHeader>
       <CardFooter>
         <Button
-          onClick={() => signOut({ callbackUrl: "/" })}
+          onClick={() => signOut({ callbackUrl: "/?loggedout" })}
           className="w-full"
         >
           Log out

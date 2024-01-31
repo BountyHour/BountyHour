@@ -42,6 +42,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signOut: "/logout",
+    signIn: "/login",
   },
   adapter: PrismaAdapter(db),
   providers: [

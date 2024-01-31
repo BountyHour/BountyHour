@@ -30,13 +30,13 @@ export async function SiteHeader() {
 export function LogInOutButton({ session }: { session: Session | null }) {
   if (session) {
     return (
-      <Link href="/api/auth/signout" className="mr-4">
+      <Link href="/logout" className="mr-4">
         Log out
       </Link>
     );
   } else {
     return (
-      <Link href="/api/auth/signin" className="mr-4">
+      <Link href="/login" className="mr-4">
         Log in
       </Link>
     );

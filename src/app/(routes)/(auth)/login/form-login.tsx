@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github, Linkedin } from "lucide-react";
-import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export function FormLogin() {
   return (
@@ -31,7 +31,7 @@ export function FormLogin() {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-6">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => signIn("github")}>
             <Github className="mr-2 h-4 w-4" />
             GitHub
           </Button>
@@ -67,7 +67,9 @@ export function FormLogin() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Login</Button>
+        <Button className="w-full" onClick={() => signIn("email")}>
+          Login
+        </Button>
       </CardFooter>
     </Card>
   );

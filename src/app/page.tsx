@@ -5,7 +5,6 @@ import { CreatePost } from "@/components/create-post";
 import { DeletePost } from "@/components/delete-post";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
-import { late } from "zod";
 
 export default async function Home() {
   noStore();
@@ -32,10 +31,10 @@ export default async function Home() {
               {session && <span>Logged in as {session.user?.name}</span>}
             </p>
             <Link
-              href={session ? "/api/auth/signout" : "/api/auth/signin"}
+              href={session ? "/logout" : "/login"}
               className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
             >
-              {session ? "Sign out" : "Sign in"}
+              {session ? "Log out" : "Log in"}
             </Link>
           </div>
           <div className="flex w-full flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20">
