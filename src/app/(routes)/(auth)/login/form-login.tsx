@@ -35,7 +35,7 @@ export function FormLogin() {
             <Github className="mr-2 h-4 w-4" />
             GitHub
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => signIn("linkedin")}>
             <Linkedin className="mr-2 h-4 w-4" />
             LinkedIn
           </Button>

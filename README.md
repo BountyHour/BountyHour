@@ -25,7 +25,7 @@
 ### Entities
 
 - Managed by NextAuth
-  - `Account`: Tokens & refreshing
+  - `Account`: Third party authentication
   - `Session`: Sessions & expiring
   - `VerificationToken`: For future 2FA / email verification
 - User
