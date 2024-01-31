@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 
-export function FormCreateAccount() {
+export function FormLogin() {
   return (
     <Card>
       <CardHeader className="space-y-1">
