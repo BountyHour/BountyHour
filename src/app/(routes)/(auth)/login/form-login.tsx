@@ -12,8 +12,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github, Linkedin } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export function FormLogin() {
+  const [email, setEmail] = useState("");
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const handleLogin = () => {
+    signIn("email", { email });
+  };
   return (
     <Card>
       <CardHeader className="space-y-1">
@@ -59,6 +67,8 @@ export function FormLogin() {
             autoComplete="email"
             autoCorrect="off"
             placeholder="you@example.com"
+            value={email}
+            onChange={handleEmailChange}
           />
         </div>
         <div className="grid gap-2">
@@ -67,7 +77,7 @@ export function FormLogin() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={() => signIn("email")}>
+        <Button className="w-full" onClick={handleLogin}>
           Login
         </Button>
       </CardFooter>
