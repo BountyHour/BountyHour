@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Github, Linkedin } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import Link from "next/link";
 
 export function FormLogin() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ export function FormLogin() {
   return (
     <Card>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-center text-2xl">Signup / Login</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="relative">
@@ -54,12 +55,14 @@ export function FormLogin() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or login
+              Or receive a login email
             </span>
           </div>
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email" className="sr-only">
+            Email
+          </Label>
           <Input
             id="email"
             type="email"
@@ -71,16 +74,29 @@ export function FormLogin() {
             onChange={handleEmailChange}
           />
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" />
-        </div>
       </CardContent>
       <CardFooter>
         <Button className="w-full" onClick={handleLogin}>
           Login
         </Button>
       </CardFooter>
+      <p className="px-8 pb-8 text-center text-sm text-muted-foreground">
+        By registering, you agree to the{" "}
+        <Link
+          href="/terms"
+          className="underline underline-offset-4 hover:text-primary"
+        >
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link
+          href="/privacy"
+          className="underline underline-offset-4 hover:text-primary"
+        >
+          Privacy Policy
+        </Link>
+        .
+      </p>
     </Card>
   );
 }
