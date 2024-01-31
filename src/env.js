@@ -32,6 +32,8 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: z.string(),
     LINKEDIN_CLIENT_ID: z.string(),
     LINKEDIN_CLIENT_SECRET: z.string(),
+    EMAIL_SERVER: z.string(),
+    EMAIL_FROM: z.string(),
   },
 
   /**
@@ -56,6 +58,8 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
     LINKEDIN_CLIENT_SECRET: process.env.LINKEDIN_CLIENT_SECRET,
+    EMAIL_SERVER: process.env.EMAIL_SERVER,
+    EMAIL_FROM: process.env.EMAIL_FROM,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
