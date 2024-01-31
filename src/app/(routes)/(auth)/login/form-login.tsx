@@ -17,7 +17,7 @@ export function FormLogin() {
   return (
     <Card>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Create an account</CardTitle>
+        <CardTitle className="text-2xl">Login</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="relative">
@@ -46,7 +46,7 @@ export function FormLogin() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or create an account
+              Or login
             </span>
           </div>
         </div>
@@ -67,25 +67,8 @@ export function FormLogin() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Create account</Button>
+        <Button className="w-full">Login</Button>
       </CardFooter>
-      <p className="px-8 pb-8 text-center text-sm text-muted-foreground">
-        By registering, you agree to our{" "}
-        <Link
-          href="/terms"
-          className="underline underline-offset-4 hover:text-primary"
-        >
-          Terms of Service
-        </Link>{" "}
-        and{" "}
-        <Link
-          href="/privacy"
-          className="underline underline-offset-4 hover:text-primary"
-        >
-          Privacy Policy
-        </Link>
-        .
-      </p>
     </Card>
   );
 }

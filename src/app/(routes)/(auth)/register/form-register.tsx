@@ -12,15 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
-import { getProviders, signIn } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function FormRegister({ providers }) {
+export default function FormRegister() {
   return (
     <Card>
       <CardHeader className="space-y-1">
@@ -33,7 +26,7 @@ export default function FormRegister({ providers }) {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Authenticate with
+              Sign up with
             </span>
           </div>
         </div>
@@ -46,13 +39,6 @@ export default function FormRegister({ providers }) {
             <Linkedin className="mr-2 h-4 w-4" />
             LinkedIn
           </Button>
-          {Object.values(providers).map((provider) => (
-            <div key={provider.name}>
-              <button onClick={() => signIn(provider.id)}>
-                Sign in with {provider.name}
-              </button>
-            </div>
-          ))}
         </div>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

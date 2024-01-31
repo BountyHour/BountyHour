@@ -40,6 +40,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+  pages: {
+    signOut: "/logout",
+  },
   adapter: PrismaAdapter(db),
   providers: [
     GithubProvider({

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { FormCreateAccount } from "@/app/(routes)/(auth)/register/create-account";
+import { FormCreateAccount } from "@/app/(routes)/(auth)/register/form-register";
 
 export const metadata: Metadata = {
   title: "Help",
