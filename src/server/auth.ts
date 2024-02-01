@@ -45,6 +45,9 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signOut: "/logout",
     signIn: "/login",
+    verifyRequest: "/verification-sent",
+    // newUser: "/bounties?newUser=true",
+    // error: "/error",
   },
   adapter: PrismaAdapter(db),
   providers: [
