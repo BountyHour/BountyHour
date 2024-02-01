@@ -1,42 +1,25 @@
-import { getServerAuthSession } from "@/server/auth";
-import { redirect } from "next/navigation";
+import Image from "next/image";
+import logo from "/public/images/branding/logo_transparent.png";
+import Link from "next/link";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-// If a logged in user gets to a page that requires them to be logged out,
-// redirect them to the home page
-// Note: Inverse logic is handled in `@/middleware.ts`
-// TODO: Reinstate logic
 export default async function RootLayout({ children }: RootLayoutProps) {
-  /*const session = await getServerAuthSession();
-  if (session) {
-    return redirect("/");
-  } else {*/
   return (
     <div className="container relative grid flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div className="relative inset-0 hidden min-h-screen flex-col bg-muted p-10 dark:border-r lg:flex">
-        <div className="relative z-20 flex items-center py-8 text-lg font-medium">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="mr-2 h-6 w-6"
-          >
-            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-          </svg>
-          Something useful should go here.
+      <div className="relative inset-0 hidden min-h-screen flex-col items-center bg-muted p-10 dark:border-r lg:flex">
+        <Image className="py-8" src={logo} alt="BountyHour logo" />
+        <div className="relative z-20 flex text-center text-lg font-medium">
+          Solve hard problems.
+          <br />
+          Help others.
+          <br />
+          Get paid.
         </div>
-        <div className="relative z-20 mt-auto">
-          <blockquote className="space-y-2">
-            <p className="text-lg">Mini sales pitch goes here* :)</p>
-            <footer className="text-sm">* Conditions apply</footer>
-          </blockquote>
+        <div className="relative z-20 mt-auto space-y-2 text-lg">
+          <Link href="/help">Need help?</Link>
         </div>
       </div>
       <div className="relative mx-auto flex min-h-screen w-[350px] flex-col justify-center">
