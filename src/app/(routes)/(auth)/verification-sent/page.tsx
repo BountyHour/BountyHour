@@ -6,13 +6,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { redirect } from "next/navigation";
+import { authCheck } from "@/lib/authChecks";
 
 export const metadata: Metadata = {
   title: "Verification email sent",
   description: "Email verification email has been sent.",
 };
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
+  const redirectUrl = await authCheck(false);
+  if (redirectUrl) {
+    return redirect(redirectUrl);
+  }
   return (
     <Card>
       <CardHeader className="space-y-1">
