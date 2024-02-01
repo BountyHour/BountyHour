@@ -10,6 +10,7 @@ import {
   HandCoins,
   LucideIcon,
   User,
+  Hourglass,
   ShieldQuestion,
 } from "lucide-react";
 
@@ -17,9 +18,10 @@ export function MainNav() {
   return (
     <>
       <div className="mr-4 flex">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
+        <Link href="/" className="mr-6 flex items-center">
           <Receipt className="h-6 w-6 text-primary" />
-          <span className="hidden font-bold sm:inline-block">
+          <Hourglass className="h-6 w-6 text-primary" />
+          <span className="mx-2 hidden font-bold sm:inline-block">
             Bounty<b className="text-primary">Hour</b>
           </span>
         </Link>
