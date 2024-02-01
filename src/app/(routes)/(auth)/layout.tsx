@@ -8,15 +8,17 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <div className="container relative grid flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative grid min-h-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative inset-0 hidden min-h-screen flex-col items-center bg-muted p-10 dark:border-r lg:flex">
-        <Image className="py-8" src={logo} alt="BountyHour logo" />
-        <div className="relative z-20 flex text-center text-lg font-medium">
-          Solve hard problems.
-          <br />
-          Help others.
-          <br />
-          Get paid.
+        <div className="relative m-auto flex flex-col items-center p-10">
+          <Image className="py-8" src={logo} alt="BountyHour logo" />
+          <div className="relative z-20 text-center text-lg font-medium">
+            Solve hard problems.
+            <br />
+            Help others.
+            <br />
+            Get paid.
+          </div>
         </div>
         <div className="relative z-20 mt-auto space-y-2 text-lg">
           <Link href="/help">Need help?</Link>
