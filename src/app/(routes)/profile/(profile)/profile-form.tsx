@@ -49,6 +49,7 @@ const profileFormSchema = z.object({
     .max(160, "About must not be longer than 160 characters.")
     .optional(),
   timezone: z.enum(["America/New_York", "America/Chicago", "America/Denver"]),
+  privacy: z.enum(["public", "protected", "private"]),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -59,6 +60,7 @@ const defaultValues: Partial<ProfileFormValues> = {
   username: "Username",
   about: "About me",
   timezone: "America/New_York",
+  privacy: "public",
 };
 
 export function ProfileForm() {
@@ -132,7 +134,7 @@ export function ProfileForm() {
           name="timezone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Timezone</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -150,6 +152,35 @@ export function ProfileForm() {
                 </SelectContent>
               </Select>
               <FormDescription>Pick a timezone.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="privacy"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Privacy mode</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pick a privacy setting" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="private">
+                    Private (only visible to current bounty's users)
+                  </SelectItem>
+                  <SelectItem value="protected">
+                    Protected (only visible to potential bounty's users)
+                  </SelectItem>
+                  <SelectItem value="public">
+                    Public (visible to everyone)
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription>Pick a privacy setting.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
