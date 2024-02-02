@@ -15,20 +15,20 @@ const sidebarNavItems = [
     href: "/profile",
   },
   {
-    title: "Account",
-    href: "/profile/account",
+    title: "Security",
+    href: "/profile/security",
   },
   {
     title: "Appearance",
     href: "/profile/appearance",
   },
   {
-    title: "Notifications",
-    href: "/profile/notifications",
+    title: "Bounties",
+    href: "/profile/bounties",
   },
   {
-    title: "Display",
-    href: "/profile/display",
+    title: "Feedback",
+    href: "/profile/feedback",
   },
 ];
 
