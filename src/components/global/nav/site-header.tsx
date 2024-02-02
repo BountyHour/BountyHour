@@ -46,7 +46,7 @@ export function LogInOutButton({ session }: { session: Session | null }) {
 export function LoggedInAvatar({ session }: { session: Session | null }) {
   if (session?.user?.image != null && session?.user?.name != null) {
     return (
-      <Link href={`/account/${session.user.id}`}>
+      <Link href={`/profile/${session.user.id}`}>
         <Avatar className="mr-4">
           <AvatarImage src={session.user.image} alt={session.user.name} />
           <AvatarFallback>{session.user.name.slice(0, 2)}</AvatarFallback>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Log out of your BountyHour account.",
 };
 
-export default async function RegisterPage() {
+export default async function LogoutPage() {
   const redirectUrl = await authCheck(true);
   if (redirectUrl) {
     return redirect(redirectUrl);

@@ -31,7 +31,6 @@ export function MainNav() {
             text="Bounties"
             Icon={HandCoins}
           />
-          <NavButton targetPathname="/account" text="Account" Icon={User} />
           <NavButton targetPathname="/help" text="Help" Icon={ShieldQuestion} />
         </nav>
       </div>

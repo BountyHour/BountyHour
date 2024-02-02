@@ -1,5 +1,3 @@
-import Image from "next/image";
-import logo from "/public/images/branding/logo_transparent.png";
 import Link from "next/link";
 import { Receipt, Hourglass } from "lucide-react";
 

@@ -1,7 +1,13 @@
 import { Separator } from "@/components/ui/separator";
-import { ProfileForm } from "@/app/(routes)/profile/profile-form";
+import { ProfileForm } from "@/app/(routes)/profile/(profile)/profile-form";
+import { redirect } from "next/navigation";
+import { authCheck } from "@/lib/authChecks";
 
-export default function SettingsProfilePage() {
+export default async function SettingsProfilePage() {
+  const redirectUrl = await authCheck(true);
+  if (redirectUrl) {
+    return redirect(redirectUrl);
+  }
   return (
     <div className="space-y-6">
       <div>

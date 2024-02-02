@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function RegisterPage() {
   const redirectUrl = await authCheck(false);
   if (redirectUrl) {
-    return redirect(redirectUrl);
+    return redirect("/");
   }
   return <FormLogin />;
 }
