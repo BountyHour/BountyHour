@@ -15,10 +15,6 @@ const sidebarNavItems = [
     href: "/profile",
   },
   {
-    title: "Security",
-    href: "/profile/security",
-  },
-  {
     title: "Appearance",
     href: "/profile/appearance",
   },
@@ -29,6 +25,10 @@ const sidebarNavItems = [
   {
     title: "Feedback",
     href: "/profile/feedback",
+  },
+  {
+    title: "Security",
+    href: "/profile/security",
   },
 ];
 

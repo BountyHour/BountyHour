@@ -33,6 +33,8 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
 
+/* Feedback given, feedback received */
+
 const languages = [
   { label: "English", value: "en" },
   { label: "French", value: "fr" },
@@ -70,7 +72,7 @@ const defaultValues: Partial<AccountFormValues> = {
   // dob: new Date("2023-01-23"),
 };
 
-export function AccountForm() {
+export function FeedbackForm() {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,

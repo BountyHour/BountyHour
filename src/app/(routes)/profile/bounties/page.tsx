@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
-import { NotificationsForm } from "@/app/(routes)/profile/bounties/notifications-form";
+import { SettingsBountiesForm } from "@/app/(routes)/profile/bounties/bounties-form";
 
-export default function SettingsNotificationsPage() {
+export default function SettingsBountiesPage() {
   return (
     <div className="space-y-6">
       <div>
@@ -11,7 +11,7 @@ export default function SettingsNotificationsPage() {
         </p>
       </div>
       <Separator />
-      <NotificationsForm />
+      <SettingsBountiesForm />
     </div>
   );
 }

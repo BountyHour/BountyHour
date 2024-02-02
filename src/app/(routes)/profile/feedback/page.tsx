@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
-import { AccountForm } from "@/app/(routes)/profile/feedback/account-form";
+import { FeedbackForm } from "@/app/(routes)/profile/feedback/feedback-form";
 
-export default function SettingsAccountPage() {
+export default function SettingsFeedbackPage() {
   return (
     <div className="space-y-6">
       <div>
@@ -12,7 +12,7 @@ export default function SettingsAccountPage() {
         </p>
       </div>
       <Separator />
-      <AccountForm />
+      <FeedbackForm />
     </div>
   );
 }

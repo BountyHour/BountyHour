@@ -20,6 +20,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
 
+{
+  /*
+Should provide list of current bounties, claimed bounties, and posted bounties.
+Additionally stats like average time to claim a bounty, average bounty amount, tags used etc.
+*/
+}
+
 const notificationsFormSchema = z.object({
   type: z.enum(["all", "mentions", "none"], {
     required_error: "You need to select a notification type.",
@@ -41,7 +48,7 @@ const defaultValues: Partial<NotificationsFormValues> = {
   security_emails: true,
 };
 
-export function NotificationsForm() {
+export function SettingsBountiesForm() {
   const form = useForm<NotificationsFormValues>({
     resolver: zodResolver(notificationsFormSchema),
     defaultValues,
