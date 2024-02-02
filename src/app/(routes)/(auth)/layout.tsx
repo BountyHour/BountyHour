@@ -13,8 +13,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <div className="relative inset-0 hidden min-h-screen flex-grow flex-col items-center bg-muted p-10 dark:border-r lg:flex">
         <div className="relative m-auto flex flex-col items-center p-10">
           <div className="flex items-center">
-            <Receipt className="h-24 w-24 text-primary" />
-            <Hourglass className="h-24 w-24 text-primary" />
+            <Receipt className="h-12 w-12 text-primary" />
+            <Hourglass className="h-12 w-12 text-primary" />
           </div>
           <span className="my-10 text-5xl font-bold">
             Bounty<b className="text-primary">Hour</b>
