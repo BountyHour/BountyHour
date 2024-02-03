@@ -28,12 +28,12 @@ import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import { profileFormSchema } from "@/app/api/formschema/user";
 import { Timezone, ProfilePrivacy } from "@prisma/client";
-
+import { useEffect } from "react";
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // Todo: Fetch from DB
 const defaultValues: Partial<ProfileFormValues> = {
-  displayName: "Display name",
+  displayName: "Name",
   username: "Username",
   about: "About me",
   timezone: Timezone.GMT,
@@ -54,9 +54,17 @@ export function ProfileForm() {
     },
   });
 
+  const { data: profile } = api.user.getUser.useQuery();
+
   function onSubmit(data: ProfileFormValues) {
     updateProfile.mutate({ ...data });
   }
+
+  useEffect(() => {
+    if (profile) {
+      form.reset(profile);
+    }
+  }, [profile]);
 
   return (
     <Form {...form}>
@@ -119,13 +127,9 @@ export function ProfileForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="America/New_York">
-                    America/New_York
-                  </SelectItem>
-                  <SelectItem value="America/Chicago">
-                    America/Chicago
-                  </SelectItem>
-                  <SelectItem value="America/Denver">America/Denver</SelectItem>
+                  <SelectItem value="GMT">America/New_York</SelectItem>
+                  <SelectItem value="BST">America/Chicago</SelectItem>
+                  <SelectItem value="EST">America/Denver</SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>Pick a timezone.</FormDescription>
@@ -146,13 +150,13 @@ export function ProfileForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="private">
+                  <SelectItem value="PRIVATE">
                     Private (only visible to current bounty's users)
                   </SelectItem>
-                  <SelectItem value="protected">
+                  <SelectItem value="PROTECTED">
                     Protected (only visible to potential bounty's users)
                   </SelectItem>
-                  <SelectItem value="public">
+                  <SelectItem value="PUBLIC">
                     Public (visible to everyone)
                   </SelectItem>
                 </SelectContent>

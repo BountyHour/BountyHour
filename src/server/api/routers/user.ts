@@ -2,6 +2,13 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { profileFormSchema } from "@/app/api/formschema/user";
 
 export const userRouter = createTRPCRouter({
+  // Retrieve
+  getUser: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.user.findFirst({
+      where: { id: ctx.session.user.id },
+    });
+  }),
+
   // Update
   updateProfile: protectedProcedure
     .input(profileFormSchema)
