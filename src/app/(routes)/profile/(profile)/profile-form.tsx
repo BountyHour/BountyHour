@@ -28,7 +28,7 @@ import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import { profileFormSchema } from "@/app/api/formschema/user";
 import { Timezone, ProfilePrivacy } from "@prisma/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 const defaultValues: Partial<ProfileFormValues> = {
@@ -38,7 +38,6 @@ const defaultValues: Partial<ProfileFormValues> = {
 };
 
 export function ProfileForm() {
-  const router = useRouter();
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -47,15 +46,16 @@ export function ProfileForm() {
 
   const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: () => {
-      //router.refresh();
+      // Display a toast?
     },
   });
 
   const { data: profile, isLoading: isProfileLoading } =
     api.user.getUser.useQuery();
 
-  const isLoading =
-    updateProfile.isLoading || isProfileLoading || form.formState.isSubmitting;
+  const isLoading = updateProfile.isLoading || isProfileLoading;
+
+  const isDirty = form.formState.isDirty;
 
   function onSubmit(data: ProfileFormValues) {
     updateProfile.mutate({ ...data });
@@ -176,8 +176,9 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <Button disabled={isLoading} type="submit">
+        <Button disabled={isLoading || !isDirty} type="submit">
           {isLoading ? "Updating..." : "Update profile"}
+          {!isDirty && " (no changes)"}
         </Button>
       </form>
     </Form>
