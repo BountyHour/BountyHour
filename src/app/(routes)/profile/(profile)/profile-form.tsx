@@ -47,11 +47,15 @@ export function ProfileForm() {
 
   const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: () => {
-      router.refresh();
+      //router.refresh();
     },
   });
 
-  const { data: profile } = api.user.getUser.useQuery();
+  const { data: profile, isLoading: isProfileLoading } =
+    api.user.getUser.useQuery();
+
+  const isLoading =
+    updateProfile.isLoading || isProfileLoading || form.formState.isSubmitting;
 
   function onSubmit(data: ProfileFormValues) {
     updateProfile.mutate({ ...data });
@@ -69,6 +73,7 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="name"
+          disabled={isLoading}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Display name</FormLabel>
@@ -86,6 +91,7 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="username"
+          disabled={isLoading}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
@@ -100,6 +106,7 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="about"
+          disabled={isLoading}
           render={({ field }) => (
             <FormItem>
               <FormLabel>About</FormLabel>
@@ -117,7 +124,11 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Timezone</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                disabled={isLoading}
+                onValueChange={field.onChange}
+                value={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue />
@@ -142,7 +153,11 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Privacy mode</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                disabled={isLoading}
+                onValueChange={field.onChange}
+                value={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue />
@@ -161,7 +176,9 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update profile</Button>
+        <Button disabled={isLoading} type="submit">
+          {isLoading ? "Updating..." : "Update profile"}
+        </Button>
       </form>
     </Form>
   );

@@ -1,6 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { profileFormSchema } from "@/app/api/formschema/user";
-
+import { setTimeout } from "timers/promises";
 export const userRouter = createTRPCRouter({
   // Retrieve
   getUser: protectedProcedure.query(({ ctx }) => {
@@ -13,6 +13,7 @@ export const userRouter = createTRPCRouter({
   updateProfile: protectedProcedure
     .input(profileFormSchema)
     .mutation(async ({ ctx, input }) => {
+      await setTimeout(2000);
       const result = ctx.db.user.update({
         where: {
           id: ctx.session.user.id,
