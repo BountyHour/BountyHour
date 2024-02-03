@@ -37,19 +37,42 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum Timezone {
+    BST
+    CEST
+    CST
+    EEST
+    EDT
+    EET
+    EST
+    GMT
+    PDT
+    PST
+}
+
+enum ProfilePrivacy {
+    PUBLIC
+    PROTECTED
+    PRIVATE
+}
+
 model User {
-    id               String    @id @default(cuid())
+    id               String         @id @default(cuid())
     name             String?
-    email            String?   @unique
+    username         String?        @unique @default(cuid())
+    about            String?
+    email            String?        @unique
     emailVerified    DateTime?
+    timezone         Timezone?      @default(GMT)
+    privacy          ProfilePrivacy @default(PRIVATE)
     image            String?
     accounts         Account[]
     sessions         Session[]
     posts            Post[]
-    createdBounties  Bounty[]  @relation("CreatedBy")
-    assignedBounties Bounty[]  @relation("AssignedTo")
-    sentMessages     Message[] @relation("SentMessages")
-    receivedMessages Message[] @relation("ReceivedMessages")
+    createdBounties  Bounty[]       @relation("CreatedBy")
+    assignedBounties Bounty[]       @relation("AssignedTo")
+    sentMessages     Message[]      @relation("SentMessages")
+    receivedMessages Message[]      @relation("ReceivedMessages")
 }
 
 model VerificationToken {

@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,31 +26,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
-
-const profileFormSchema = z.object({
-  displayName: z
-    .string()
-    .min(2, {
-      message: "Display name must be at least 2 characters.",
-    })
-    .max(25, {
-      message: "Display name must not be longer than 25 characters.",
-    }),
-  username: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(25, {
-      message: "Username must not be longer than 25 characters.",
-    }),
-  about: z
-    .string()
-    .max(160, "About must not be longer than 160 characters.")
-    .optional(),
-  timezone: z.enum(["America/New_York", "America/Chicago", "America/Denver"]),
-  privacy: z.enum(["public", "protected", "private"]),
-});
+import { profileFormSchema } from "@/app/api/formschema/user";
+import { Timezone, ProfilePrivacy } from "@prisma/client";
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
@@ -61,8 +36,8 @@ const defaultValues: Partial<ProfileFormValues> = {
   displayName: "Display name",
   username: "Username",
   about: "About me",
-  timezone: "America/New_York",
-  privacy: "public",
+  timezone: Timezone.GMT,
+  privacy: ProfilePrivacy.PRIVATE,
 };
 
 export function ProfileForm() {
@@ -73,23 +48,14 @@ export function ProfileForm() {
     mode: "onChange",
   });
 
-  const createPost = api.post.create.useMutation({
+  const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: () => {
       router.refresh();
     },
   });
 
   function onSubmit(data: ProfileFormValues) {
-    console.log(data);
-    createPost.mutate({ name: data.displayName });
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    updateProfile.mutate({ ...data });
   }
 
   return (
