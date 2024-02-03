@@ -2,7 +2,7 @@ import { Timezone, ProfilePrivacy } from "@prisma/client";
 import { z } from "zod";
 
 export const profileFormSchema = z.object({
-  displayName: z
+  name: z
     .string()
     .min(2, {
       message: "Display name must be at least 2 characters.",

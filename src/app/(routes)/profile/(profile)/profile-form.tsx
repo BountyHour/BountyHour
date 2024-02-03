@@ -31,13 +31,10 @@ import { Timezone, ProfilePrivacy } from "@prisma/client";
 import { useEffect } from "react";
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// Todo: Fetch from DB
 const defaultValues: Partial<ProfileFormValues> = {
-  displayName: "Name",
-  username: "Username",
-  about: "About me",
-  timezone: Timezone.GMT,
-  privacy: ProfilePrivacy.PRIVATE,
+  name: "Loading...",
+  username: "Loading...",
+  about: "Loading...",
 };
 
 export function ProfileForm() {
@@ -71,12 +68,12 @@ export function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="displayName"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Display name</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Display name" {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a
@@ -93,7 +90,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Username" {...field} />
               </FormControl>
               <FormDescription>Username.</FormDescription>
               <FormMessage />
@@ -107,7 +104,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>About</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="About" {...field} />
               </FormControl>
               <FormDescription>About.</FormDescription>
               <FormMessage />
@@ -120,16 +117,18 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Timezone</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="GMT">America/New_York</SelectItem>
-                  <SelectItem value="BST">America/Chicago</SelectItem>
-                  <SelectItem value="EST">America/Denver</SelectItem>
+                  {Object.keys(Timezone).map((timezone) => (
+                    <SelectItem key={timezone} value={timezone}>
+                      {timezone}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormDescription>Pick a timezone.</FormDescription>
@@ -143,22 +142,18 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Privacy mode</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Pick a privacy setting" />
+                    <SelectValue />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="PRIVATE">
-                    Private (only visible to current bounty's users)
-                  </SelectItem>
-                  <SelectItem value="PROTECTED">
-                    Protected (only visible to potential bounty's users)
-                  </SelectItem>
-                  <SelectItem value="PUBLIC">
-                    Public (visible to everyone)
-                  </SelectItem>
+                  {Object.keys(ProfilePrivacy).map((privacy) => (
+                    <SelectItem key={privacy} value={privacy}>
+                      {privacy}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormDescription>Pick a privacy setting.</FormDescription>

@@ -18,7 +18,7 @@ export const userRouter = createTRPCRouter({
           id: ctx.session.user.id,
         },
         data: {
-          name: input.displayName,
+          name: input.name,
           username: input.username,
           about: input.about,
           timezone: input.timezone,
