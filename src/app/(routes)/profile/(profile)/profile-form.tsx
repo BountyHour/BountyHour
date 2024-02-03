@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { api } from "@/trpc/react";
 
 const profileFormSchema = z.object({
   displayName: z
@@ -64,13 +66,22 @@ const defaultValues: Partial<ProfileFormValues> = {
 };
 
 export function ProfileForm() {
+  const router = useRouter();
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: "onChange",
   });
 
+  const createPost = api.post.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
+
   function onSubmit(data: ProfileFormValues) {
+    console.log(data);
+    createPost.mutate({ name: data.displayName });
     toast({
       title: "You submitted the following values:",
       description: (

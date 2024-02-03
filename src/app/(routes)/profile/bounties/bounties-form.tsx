@@ -19,7 +19,8 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
-
+import { useRouter } from "next/navigation";
+import { api } from "@/trpc/react";
 {
   /*
 Should provide list of current bounties, claimed bounties, and posted bounties.
@@ -28,14 +29,11 @@ Additionally stats like average time to claim a bounty, average bounty amount, t
 }
 
 const notificationsFormSchema = z.object({
-  type: z.enum(["all", "mentions", "none"], {
-    required_error: "You need to select a notification type.",
-  }),
   mobile: z.boolean().default(false).optional(),
   communication_emails: z.boolean().default(false).optional(),
   social_emails: z.boolean().default(false).optional(),
   marketing_emails: z.boolean().default(false).optional(),
-  security_emails: z.boolean(),
+  security_emails: z.boolean().optional(),
 });
 
 type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;
@@ -55,6 +53,7 @@ export function SettingsBountiesForm() {
   });
 
   function onSubmit(data: NotificationsFormValues) {
+    console.log(data);
     toast({
       title: "You submitted the following values:",
       description: (
