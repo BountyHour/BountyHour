@@ -72,7 +72,7 @@ export function AppearanceForm() {
           theme="system"
           currentTheme={theme}
           previewTheme={systemTheme}
-          text="System (automatic)"
+          text={`System (${theme}, default)`}
           onClick={setTheme}
         />
         <ThemeOption

@@ -1,5 +1,12 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import {
+  User,
+  PaintRoller,
+  Receipt,
+  MessageSquareHeart,
+  Lock,
+} from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "@/app/(routes)/profile/sidebar-nav";
@@ -13,22 +20,27 @@ const sidebarNavItems = [
   {
     title: "Profile",
     href: "/profile",
+    icon: <User />,
   },
   {
     title: "Appearance",
     href: "/profile/appearance",
+    icon: <PaintRoller />,
   },
   {
     title: "Bounties",
     href: "/profile/bounties",
+    icon: <Receipt />,
   },
   {
     title: "Feedback",
     href: "/profile/feedback",
+    icon: <MessageSquareHeart />,
   },
   {
     title: "Security",
     href: "/profile/security",
+    icon: <Lock />,
   },
 ];
 

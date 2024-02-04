@@ -29,13 +29,16 @@ import { api } from "@/trpc/react";
 import { profileFormSchema } from "@/app/api/formschema/user";
 import { Timezone, ProfilePrivacy } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 const defaultValues: Partial<ProfileFormValues> = {
-  name: "Loading...",
-  username: "Loading...",
-  about: "Loading...",
+  name: "",
+  username: "",
+  about: "",
+  timezone: Timezone.GMT,
+  privacy: ProfilePrivacy.PRIVATE,
 };
 
 export function ProfileForm() {
@@ -77,6 +80,9 @@ export function ProfileForm() {
       return acc;
     }, {});
 
+    if (updatedFields.length === 0) {
+      return toast.warning("No changes to save");
+    }
     try {
       await updateProfile.mutateAsync(updatedFields);
     } catch (error: any) {
@@ -86,7 +92,7 @@ export function ProfileForm() {
 
   // Helpers for UI states
   const isLoading = updateProfile.isLoading || isProfileLoading;
-  const isDirty = form.formState.isDirty;
+  const isDirty = Object.keys(form.formState.dirtyFields).length > 0;
 
   return (
     <Form {...form}>
@@ -197,10 +203,20 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <Button disabled={isLoading || !isDirty} type="submit">
-          {isLoading ? "Updating..." : "Update profile"}
-          {!isDirty && " (no changes)"}
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button
+            disabled={isLoading && !isDirty}
+            type="submit"
+            className="min-w-36"
+          >
+            {isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Update Profile"
+            )}
+          </Button>
+          {!isDirty && <FormDescription>No unsaved changes</FormDescription>}
+        </div>
       </form>
     </Form>
   );

@@ -12,6 +12,10 @@ const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
       return new Error(
         `${err.meta.target}: The entered ${err.meta.target} doesn't match, please check it is correct and try again.`,
       );
+    case "P2025":
+      return new Error(
+        `${err.meta.target}: The record searched for in the where condition (${err.meta.cause}) does not exist.`,
+      );
     default:
       return new Error(
         `${err.meta.target}: Something went wrong whilst saving, please check the form for errors.`,
