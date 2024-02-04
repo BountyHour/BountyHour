@@ -58,7 +58,13 @@ export function ProfileForm() {
   const isDirty = form.formState.isDirty;
 
   function onSubmit(data: ProfileFormValues) {
-    updateProfile.mutate({ ...data });
+    const dirties = form.formState.dirtyFields;
+    const updatedFields = Object.keys(dirties).reduce((acc: any, key) => {
+      acc[key] = data[key as keyof ProfileFormValues];
+      return acc;
+    }, {});
+
+    updateProfile.mutate(updatedFields);
   }
 
   useEffect(() => {
@@ -111,7 +117,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>About</FormLabel>
               <FormControl>
-                <Input placeholder="About" {...field} />
+                <Textarea placeholder="About" {...field} />
               </FormControl>
               <FormDescription>About.</FormDescription>
               <FormMessage />

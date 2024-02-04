@@ -11,7 +11,7 @@ export const userRouter = createTRPCRouter({
 
   // Update
   updateProfile: protectedProcedure
-    .input(profileFormSchema)
+    .input(profileFormSchema.partial())
     .mutation(async ({ ctx, input }) => {
       await setTimeout(2000);
       const result = ctx.db.user.update({
