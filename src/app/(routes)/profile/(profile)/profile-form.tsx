@@ -60,7 +60,7 @@ export function ProfileForm() {
 
   const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: () => {
-      toast.success("wahoo!");
+      toast.success("Profile saved!");
     },
     onError: (error: any) => {
       const [field, message] = error.message.split(":");
