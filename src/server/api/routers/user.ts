@@ -1,10 +1,12 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { profileFormSchema } from "@/app/api/formschema/user";
 import { Prisma } from "@prisma/client";
+import { setTimeout } from "timers/promises";
 
 export const userRouter = createTRPCRouter({
   // Retrieve
-  getUser: protectedProcedure.query(({ ctx }) => {
+  getUser: protectedProcedure.query(async ({ ctx }) => {
+    //await setTimeout(2000);
     return ctx.db.user.findFirst({
       where: { id: ctx.session.user.id },
     });
@@ -14,6 +16,8 @@ export const userRouter = createTRPCRouter({
   updateProfile: protectedProcedure
     .input(profileFormSchema.partial())
     .mutation(async ({ ctx, input }) => {
+      //await setTimeout(2000);
+
       try {
         await ctx.db.user.update({
           where: {

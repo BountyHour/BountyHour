@@ -29,6 +29,7 @@ import { api } from "@/trpc/react";
 import { profileFormSchema } from "@/app/api/formschema/user";
 import { Timezone, ProfilePrivacy } from "@prisma/client";
 import { useEffect, useState } from "react";
+
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 const defaultValues: Partial<ProfileFormValues> = {
@@ -44,20 +45,30 @@ export function ProfileForm() {
     mode: "onChange",
   });
 
+  // Profile is fetched from the server, and we only update it on initial load
+  const [profile, setProfile] = useState<ProfileFormValues | null>(null);
+  const { data: fetchedProfile, isLoading: isProfileLoading } =
+    api.user.getUser.useQuery();
+
+  // If the profile is fetched, and we don't have a local copy, set it
+  useEffect(() => {
+    if (fetchedProfile && !profile) {
+      setProfile(fetchedProfile);
+      form.reset(fetchedProfile);
+    }
+  }, [fetchedProfile, profile]);
+
   const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: () => {
       // Display a toast?
     },
-    onError: (error) => {},
+    onError: (error: any) => {
+      const [field, message] = error.message.split(":");
+      form.setError(field as keyof ProfileFormValues, { message });
+    },
   });
 
-  const { data: profile, isLoading: isProfileLoading } =
-    api.user.getUser.useQuery();
-
-  const isLoading = updateProfile.isLoading || isProfileLoading;
-
-  const isDirty = form.formState.isDirty;
-
+  // Only submit changed fields, and display errors
   const onSubmit = async (data: ProfileFormValues) => {
     const dirties = form.formState.dirtyFields;
     const updatedFields = Object.keys(dirties).reduce((acc: any, key) => {
@@ -66,18 +77,15 @@ export function ProfileForm() {
     }, {});
 
     try {
-      await updateProfile.mutateAsync(data);
+      await updateProfile.mutateAsync(updatedFields);
     } catch (error: any) {
-      const [field, message] = error.message.split(":");
-      form.setError(field as keyof ProfileFormValues, { message });
+      /* Handled in `useMutation` */
     }
   };
 
-  useEffect(() => {
-    if (profile) {
-      form.reset(profile);
-    }
-  }, [profile]);
+  // Helpers for UI states
+  const isLoading = updateProfile.isLoading || isProfileLoading;
+  const isDirty = form.formState.isDirty;
 
   return (
     <Form {...form}>
