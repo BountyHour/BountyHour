@@ -48,6 +48,7 @@ export function ProfileForm() {
     onSuccess: () => {
       // Display a toast?
     },
+    onError: (error) => {},
   });
 
   const { data: profile, isLoading: isProfileLoading } =
@@ -57,15 +58,20 @@ export function ProfileForm() {
 
   const isDirty = form.formState.isDirty;
 
-  function onSubmit(data: ProfileFormValues) {
+  const onSubmit = async (data: ProfileFormValues) => {
     const dirties = form.formState.dirtyFields;
     const updatedFields = Object.keys(dirties).reduce((acc: any, key) => {
       acc[key] = data[key as keyof ProfileFormValues];
       return acc;
     }, {});
 
-    updateProfile.mutate(updatedFields);
-  }
+    try {
+      await updateProfile.mutateAsync(data);
+    } catch (error: any) {
+      const [field, message] = error.message.split(":");
+      form.setError(field as keyof ProfileFormValues, { message });
+    }
+  };
 
   useEffect(() => {
     if (profile) {

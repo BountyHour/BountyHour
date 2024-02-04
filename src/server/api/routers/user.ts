@@ -1,6 +1,7 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { profileFormSchema } from "@/app/api/formschema/user";
-import { setTimeout } from "timers/promises";
+import { Prisma } from "@prisma/client";
+
 export const userRouter = createTRPCRouter({
   // Retrieve
   getUser: protectedProcedure.query(({ ctx }) => {
@@ -13,20 +14,27 @@ export const userRouter = createTRPCRouter({
   updateProfile: protectedProcedure
     .input(profileFormSchema.partial())
     .mutation(async ({ ctx, input }) => {
-      await setTimeout(2000);
-      const result = ctx.db.user.update({
-        where: {
-          id: ctx.session.user.id,
-        },
-        data: {
-          name: input.name,
-          username: input.username,
-          about: input.about,
-          timezone: input.timezone,
-          privacy: input.privacy,
-        },
-      });
-
-      return result;
+      try {
+        await ctx.db.user.update({
+          where: {
+            id: ctx.session.user.id,
+          },
+          data: {
+            name: input.name,
+            username: input.username,
+            about: input.about,
+            timezone: input.timezone,
+            privacy: input.privacy,
+          },
+        });
+      } catch (e: any) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          if (e.code === "P2002" && e.meta.target.includes("username")) {
+            throw new Error("username:Username already taken");
+          }
+        } else {
+          throw e;
+        }
+      }
     }),
 });
