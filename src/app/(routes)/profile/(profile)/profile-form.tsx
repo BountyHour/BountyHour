@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import { profileFormSchema } from "@/app/api/formschema/user";
@@ -60,11 +60,12 @@ export function ProfileForm() {
 
   const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: () => {
-      // Display a toast?
+      toast.success("wahoo!");
     },
     onError: (error: any) => {
       const [field, message] = error.message.split(":");
       form.setError(field as keyof ProfileFormValues, { message });
+      toast.warning("Error updating " + field + ", see form for details");
     },
   });
 

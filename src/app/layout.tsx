@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/global/lightdark/theme-provider";
 import { SiteHeader } from "@/components/global/nav/site-header";
+import { Toaster } from "@/components/ui/sonner";
 import { TRPCReactProvider } from "@/trpc/react";
 
 const inter = Inter({
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <div className="container max-w-screen-2xl flex-1">
                   {children}
                 </div>
+                <Toaster position="bottom-center" closeButton richColors />
               </div>
             </TRPCReactProvider>
           </ThemeProvider>
