@@ -158,7 +158,7 @@ export function ProfileForm() {
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue />
+                    <SelectValue placeholder="Timezone" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -187,7 +187,7 @@ export function ProfileForm() {
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue />
+                    <SelectValue placeholder="Privacy control" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -215,7 +215,11 @@ export function ProfileForm() {
               "Update Profile"
             )}
           </Button>
-          {!isDirty && <FormDescription>No unsaved changes</FormDescription>}
+          {!isDirty && !isLoading && (
+            <FormDescription className="italic">
+              No unsaved changes
+            </FormDescription>
+          )}
         </div>
       </form>
     </Form>
