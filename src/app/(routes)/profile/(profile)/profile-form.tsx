@@ -37,8 +37,6 @@ const defaultValues: Partial<ProfileFormValues> = {
   name: "",
   username: "",
   about: "",
-  timezone: Timezone.GMT,
-  privacy: ProfilePrivacy.PRIVATE,
 };
 
 export function ProfileForm() {
@@ -51,18 +49,20 @@ export function ProfileForm() {
   // Profile is fetched from the server, and we only update it on initial load
   const [hasFetchedProfile, setHasFetchedProfile] = useState(false);
   const { data: fetchedProfile, isLoading: isProfileLoading } =
-    api.user.getUser.useQuery();
+    api.user.getUser.useQuery(undefined, { refetchOnWindowFocus: true });
 
   // If the profile is fetched, and we don't have a local copy, set it
   useEffect(() => {
+    console.log("useeffect");
     if (fetchedProfile && !hasFetchedProfile) {
+      console.log("applying");
       setHasFetchedProfile(true);
-      form.reset(fetchedProfile);
+      setTimeout(() => form.reset(fetchedProfile), 0);
     }
   }, [fetchedProfile]);
 
   const updateProfile = api.user.updateProfile.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Profile saved!");
     },
     onError: (error: any) => {
@@ -125,7 +125,9 @@ export function ProfileForm() {
               <FormControl>
                 <Input placeholder="Username" {...field} />
               </FormControl>
-              <FormDescription>Username.</FormDescription>
+              <FormDescription>
+                This will also be your profile URL (6-12 characters).
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -138,9 +140,11 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>About</FormLabel>
               <FormControl>
-                <Textarea placeholder="About" {...field} />
+                <Textarea placeholder="" {...field} />
               </FormControl>
-              <FormDescription>About.</FormDescription>
+              <FormDescription>
+                A brief description of yourself (0-160 characters).
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -153,12 +157,16 @@ export function ProfileForm() {
               <FormLabel>Timezone</FormLabel>
               <Select
                 disabled={isLoading}
-                onValueChange={field.onChange}
+                onValueChange={(value) => {
+                  if (value != "") {
+                    field.onChange(value);
+                  }
+                }}
                 value={field.value}
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Timezone" />
+                    <SelectValue placeholder="Your timezone" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -191,7 +199,7 @@ export function ProfileForm() {
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Privacy control" />
+                    <SelectValue placeholder="Your privacy setting" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -202,9 +210,7 @@ export function ProfileForm() {
                   ))}
                 </SelectContent>
               </Select>
-              <FormDescription>
-                Pick a privacy setting {field.value} {field.value.toString()}.
-              </FormDescription>
+              <FormDescription>Pick a privacy setting.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
