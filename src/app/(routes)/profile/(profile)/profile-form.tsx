@@ -49,17 +49,17 @@ export function ProfileForm() {
   });
 
   // Profile is fetched from the server, and we only update it on initial load
-  const [profile, setProfile] = useState<ProfileFormValues | null>(null);
+  const [hasFetchedProfile, setHasFetchedProfile] = useState(false);
   const { data: fetchedProfile, isLoading: isProfileLoading } =
     api.user.getUser.useQuery();
 
   // If the profile is fetched, and we don't have a local copy, set it
   useEffect(() => {
-    if (fetchedProfile && !profile) {
-      setProfile(fetchedProfile);
+    if (fetchedProfile && !hasFetchedProfile) {
+      setHasFetchedProfile(true);
       form.reset(fetchedProfile);
     }
-  }, [fetchedProfile, profile]);
+  }, [fetchedProfile]);
 
   const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: () => {
@@ -182,7 +182,11 @@ export function ProfileForm() {
               <FormLabel>Privacy mode</FormLabel>
               <Select
                 disabled={isLoading}
-                onValueChange={field.onChange}
+                onValueChange={(value) => {
+                  if (value != "") {
+                    field.onChange(value);
+                  }
+                }}
                 value={field.value}
               >
                 <FormControl>
@@ -191,14 +195,16 @@ export function ProfileForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.keys(ProfilePrivacy).map((privacy) => (
-                    <SelectItem key={privacy} value={privacy}>
-                      {privacy}
+                  {Object.keys(ProfilePrivacy).map((timezone) => (
+                    <SelectItem key={timezone} value={timezone}>
+                      {timezone}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <FormDescription>Pick a privacy setting.</FormDescription>
+              <FormDescription>
+                Pick a privacy setting {field.value} {field.value.toString()}.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
