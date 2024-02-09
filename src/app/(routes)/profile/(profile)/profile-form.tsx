@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import { profileFormSchema } from "@/app/api/formschema/user";
 import { Timezone, ProfilePrivacy } from "@prisma/client";
@@ -46,23 +45,26 @@ export function ProfileForm() {
     mode: "onChange",
   });
 
-  // Profile is fetched from the server, and we only update it on initial load
-  const [hasFetchedProfile, setHasFetchedProfile] = useState(false);
-  const { data: fetchedProfile, isLoading: isProfileLoading } =
-    api.user.getUser.useQuery(undefined, { refetchOnWindowFocus: true });
+  const [fetchedProfile, setFetchedProfile] =
+    useState<ProfileFormValues | null>(null);
 
-  // If the profile is fetched, and we don't have a local copy, set it
+  const { data: initialUserData, isLoading: loadingInitialData } =
+    api.user.getUser.useQuery(undefined, {
+      refetchOnWindowFocus: false,
+    });
+
   useEffect(() => {
-    console.log("useeffect");
-    if (fetchedProfile && !hasFetchedProfile) {
-      console.log("applying");
-      setHasFetchedProfile(true);
-      setTimeout(() => form.reset(fetchedProfile), 0);
+    if (initialUserData) {
+      setFetchedProfile(initialUserData);
+      form.reset(initialUserData);
     }
-  }, [fetchedProfile]);
+  }, [initialUserData]);
 
   const updateProfile = api.user.updateProfile.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (dataPromise) => {
+      const data: ProfileFormValues = await dataPromise;
+      form.reset(data); // Reset form to new data for accurate "dirtiness"
+      setFetchedProfile(data);
       toast.success("Profile saved!");
     },
     onError: (error: any) => {
@@ -91,7 +93,7 @@ export function ProfileForm() {
   };
 
   // Helpers for UI states
-  const isLoading = updateProfile.isLoading || isProfileLoading;
+  const isLoading = updateProfile.isLoading || loadingInitialData;
   const isDirty = Object.keys(form.formState.dirtyFields).length > 0;
 
   return (

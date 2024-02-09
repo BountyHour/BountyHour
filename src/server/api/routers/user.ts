@@ -8,6 +8,7 @@ export const userRouter = createTRPCRouter({
   // Retrieve
   getUser: protectedProcedure.query(async ({ ctx }) => {
     //await setTimeout(2000);
+    console.log("looking up user!");
     return ctx.db.user.findFirst({
       where: { id: ctx.session.user.id },
     });
@@ -18,7 +19,7 @@ export const userRouter = createTRPCRouter({
     withFieldMappedErrors(async ({ ctx, input }) => {
       //await setTimeout(2000);
 
-      await ctx.db.user.update({
+      return await ctx.db.user.update({
         where: {
           id: ctx.session.user.id,
         },
