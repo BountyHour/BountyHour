@@ -28,7 +28,7 @@ import { api } from "@/trpc/react";
 import { profileFormSchema } from "@/app/api/formschema/user";
 import { Timezone, ProfilePrivacy } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShieldCheck, ShieldEllipsis, ShieldOff } from "lucide-react";
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
@@ -104,13 +104,15 @@ export function ProfileForm() {
           disabled={isLoading}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Display name</FormLabel>
+              <FormLabel className="flex items-center space-x-2">
+                <span>Display name</span> <ShieldCheck className="h-4 w-4" />
+              </FormLabel>
               <FormControl>
                 <Input placeholder="..." {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                Your display name can be your real name or a pseudonym (2-25
+                characters).
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -122,7 +124,9 @@ export function ProfileForm() {
           disabled={isLoading}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel className="flex items-center space-x-2">
+                <span>Username</span> <ShieldCheck className="h-4 w-4" />
+              </FormLabel>
               <FormControl>
                 <Input placeholder="..." {...field} />
               </FormControl>
@@ -139,12 +143,15 @@ export function ProfileForm() {
           disabled={isLoading}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>About</FormLabel>
+              <FormLabel className="flex items-center space-x-2">
+                <span>About</span>
+                {getPrivacyIcon(form.getValues("privacy"))}
+              </FormLabel>
               <FormControl>
                 <Textarea placeholder="..." {...field} />
               </FormControl>
               <FormDescription>
-                A brief description of yourself (0-160 characters).
+                A brief description of yourself (0-160 characters, optional).
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -155,7 +162,10 @@ export function ProfileForm() {
           name="timezone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Timezone</FormLabel>
+              <FormLabel className="flex items-center space-x-2">
+                <span>Timezone</span>{" "}
+                {getPrivacyIcon(form.getValues("privacy"))}
+              </FormLabel>
               <Select
                 disabled={isLoading}
                 onValueChange={(value) => {
@@ -178,7 +188,10 @@ export function ProfileForm() {
                   ))}
                 </SelectContent>
               </Select>
-              <FormDescription>Pick a timezone.</FormDescription>
+              <FormDescription>
+                Your timezone will be displayed on your profile, and influence
+                which searches you appear in.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -204,15 +217,27 @@ export function ProfileForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.keys(ProfilePrivacy).map((timezone) => (
-                    <SelectItem key={timezone} value={timezone}>
-                      {timezone.charAt(0).toUpperCase() +
-                        timezone.slice(1).toLowerCase()}
+                  {Object.keys(ProfilePrivacy).map((privacy) => (
+                    <SelectItem key={privacy} value={privacy}>
+                      {privacy.charAt(0).toUpperCase() +
+                        privacy.slice(1).toLowerCase()}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <FormDescription>Pick a privacy setting.</FormDescription>
+              <FormDescription>
+                Choose who can see your profile information. Display name and
+                Username are always public.
+                <br />
+                <br />
+                <b>Public</b>: Visible to all users.
+                <br />
+                <b>Protected (default)</b>: Visible to potential bounty hunters
+                / posters, e.g. in a search.
+                <br />
+                <b>Private</b>: Only visible to users you are current engaged in
+                a bounty or conversation with.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -238,4 +263,15 @@ export function ProfileForm() {
       </form>
     </Form>
   );
+}
+
+function getPrivacyIcon(type: ProfilePrivacy) {
+  switch (type) {
+    case ProfilePrivacy.PUBLIC:
+      return <ShieldCheck className="h-4 w-4" />;
+    case ProfilePrivacy.PROTECTED:
+      return <ShieldEllipsis className="h-4 w-4" />;
+    case ProfilePrivacy.PRIVATE:
+      return <ShieldOff className="h-4 w-4" />;
+  }
 }
