@@ -105,7 +105,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Display name</FormLabel>
               <FormControl>
-                <Input placeholder="Display name" {...field} />
+                <Input placeholder="..." {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a
@@ -123,7 +123,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Username" {...field} />
+                <Input placeholder="..." {...field} />
               </FormControl>
               <FormDescription>
                 This will also be your profile URL (6-12 characters).
@@ -140,7 +140,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>About</FormLabel>
               <FormControl>
-                <Textarea placeholder="" {...field} />
+                <Textarea placeholder="..." {...field} />
               </FormControl>
               <FormDescription>
                 A brief description of yourself (0-160 characters).
@@ -166,7 +166,7 @@ export function ProfileForm() {
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Your timezone" />
+                    <SelectValue placeholder="..." />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -199,13 +199,14 @@ export function ProfileForm() {
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Your privacy setting" />
+                    <SelectValue placeholder="..." />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {Object.keys(ProfilePrivacy).map((timezone) => (
                     <SelectItem key={timezone} value={timezone}>
-                      {timezone}
+                      {timezone.charAt(0).toUpperCase() +
+                        timezone.slice(1).toLowerCase()}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -217,7 +218,7 @@ export function ProfileForm() {
         />
         <div className="flex items-center space-x-2">
           <Button
-            disabled={isLoading && !isDirty}
+            disabled={isLoading || !isDirty}
             type="submit"
             className="min-w-36"
           >
