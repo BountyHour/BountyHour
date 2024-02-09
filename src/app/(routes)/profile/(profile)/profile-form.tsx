@@ -22,6 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { api } from "@/trpc/react";
@@ -105,7 +110,8 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center space-x-2">
-                <span>Display name</span> <ShieldCheck className="h-4 w-4" />
+                <span>Display name</span>
+                {getPrivacyIcon(ProfilePrivacy.PUBLIC)}
               </FormLabel>
               <FormControl>
                 <Input placeholder="..." {...field} />
@@ -125,7 +131,8 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center space-x-2">
-                <span>Username</span> <ShieldCheck className="h-4 w-4" />
+                <span>Username</span>
+                {getPrivacyIcon(ProfilePrivacy.PUBLIC)}
               </FormLabel>
               <FormControl>
                 <Input placeholder="..." {...field} />
@@ -169,7 +176,7 @@ export function ProfileForm() {
               <Select
                 disabled={isLoading}
                 onValueChange={(value) => {
-                  if (value != "") {
+                  if (value) {
                     field.onChange(value);
                   }
                 }}
@@ -201,11 +208,11 @@ export function ProfileForm() {
           name="privacy"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Privacy mode</FormLabel>
+              <FormLabel>Profile privacy</FormLabel>
               <Select
                 disabled={isLoading}
                 onValueChange={(value) => {
-                  if (value != "") {
+                  if (value) {
                     field.onChange(value);
                   }
                 }}
@@ -217,26 +224,26 @@ export function ProfileForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.keys(ProfilePrivacy).map((privacy) => (
-                    <SelectItem key={privacy} value={privacy}>
-                      {privacy.charAt(0).toUpperCase() +
-                        privacy.slice(1).toLowerCase()}
-                    </SelectItem>
-                  ))}
+                  <SelectItem key="PUBLIC" value="PUBLIC">
+                    Public
+                  </SelectItem>
+                  <SelectItem key="PROTECTED" value="PROTECTED">
+                    Protected (default)
+                  </SelectItem>
+                  <SelectItem key="PRIVATE" value="PRIVATE">
+                    Private
+                  </SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>
                 Choose who can see your profile information. Display name and
                 Username are always public.
                 <br />
-                <br />
-                <b>Public</b>: Visible to all users.
-                <br />
-                <b>Protected (default)</b>: Visible to potential bounty hunters
-                / posters, e.g. in a search.
-                <br />
-                <b>Private</b>: Only visible to users you are current engaged in
-                a bounty or conversation with.
+                <br />- <b>Public</b>: Visible to all users.
+                <br />- <b>Protected (default)</b>: Visible to potential bounty
+                hunters / posters, e.g. in a search.
+                <br />- <b>Private</b>: Only visible to users you are current
+                engaged in a bounty or conversation with.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -268,10 +275,45 @@ export function ProfileForm() {
 function getPrivacyIcon(type: ProfilePrivacy) {
   switch (type) {
     case ProfilePrivacy.PUBLIC:
-      return <ShieldCheck className="h-4 w-4" />;
+      return (
+        <Popover>
+          <PopoverTrigger>
+            <ShieldCheck className="h-4 w-4" />
+          </PopoverTrigger>
+          <PopoverContent>
+            <p>
+              <b>Public</b>: Visible to all users.
+            </p>
+          </PopoverContent>
+        </Popover>
+      );
     case ProfilePrivacy.PROTECTED:
-      return <ShieldEllipsis className="h-4 w-4" />;
+      return (
+        <Popover>
+          <PopoverTrigger>
+            <ShieldEllipsis className="h-4 w-4" />
+          </PopoverTrigger>
+          <PopoverContent>
+            <p>
+              <b>Protected</b>: Visible to potential bounty hunters / posters,
+              e.g. in a search.
+            </p>
+          </PopoverContent>
+        </Popover>
+      );
     case ProfilePrivacy.PRIVATE:
-      return <ShieldOff className="h-4 w-4" />;
+      return (
+        <Popover>
+          <PopoverTrigger>
+            <ShieldOff className="h-4 w-4" />
+          </PopoverTrigger>
+          <PopoverContent>
+            <p>
+              <b>Private</b>: Only visible to users you are current engaged in a
+              bounty or conversation with.
+            </p>
+          </PopoverContent>
+        </Popover>
+      );
   }
 }
