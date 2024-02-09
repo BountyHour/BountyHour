@@ -32,50 +32,48 @@ import { Loader2 } from "lucide-react";
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-const defaultValues: Partial<ProfileFormValues> = {
-  name: "",
-  username: "",
-  about: "",
-};
-
 export function ProfileForm() {
+  /** Fetch initial user data, and expose state for {@link isLoading} */
+  const { data: initialUserData, isLoading: loadingInitialData } =
+    api.user.getUser.useQuery(undefined, {
+      refetchOnWindowFocus: false, // Don't refetch on tab change
+    });
+  useEffect(() => {
+    initialUserData && form.reset(initialUserData);
+  }, [initialUserData]);
+
+  /** Error handling, including parsing {@link withFieldMappedErrors} */
+  const [errorData, setErrorData] = useState<string | null>(null);
+  useEffect(() => {
+    if (errorData) {
+      const [field, message] = errorData.split(":");
+      form.setError(field as keyof ProfileFormValues, { message });
+      toast.warning("Error updating " + field + ", see form for details");
+    }
+  }, [errorData]);
+
+  /** Form initialisation boilerplate */
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
+    defaultValues: { name: "", username: "", about: "" },
     mode: "onChange",
   });
 
-  const [fetchedProfile, setFetchedProfile] =
-    useState<ProfileFormValues | null>(null);
-
-  const { data: initialUserData, isLoading: loadingInitialData } =
-    api.user.getUser.useQuery(undefined, {
-      refetchOnWindowFocus: false,
-    });
-
-  useEffect(() => {
-    if (initialUserData) {
-      setFetchedProfile(initialUserData);
-      form.reset(initialUserData);
-    }
-  }, [initialUserData]);
-
+  /** Handling results of updating data via {@link onSubmit} */
   const updateProfile = api.user.updateProfile.useMutation({
     onSuccess: async (dataPromise) => {
       const data: ProfileFormValues = await dataPromise;
       form.reset(data); // Reset form to new data for accurate "dirtiness"
-      setFetchedProfile(data);
       toast.success("Profile saved!");
     },
     onError: (error: any) => {
-      const [field, message] = error.message.split(":");
-      form.setError(field as keyof ProfileFormValues, { message });
-      toast.warning("Error updating " + field + ", see form for details");
+      setErrorData(error.message);
     },
   });
 
-  // Only submit changed fields, and display errors
+  /** Only submit changed values */
   const onSubmit = async (data: ProfileFormValues) => {
+    setErrorData(null);
     const dirties = form.formState.dirtyFields;
     const updatedFields = Object.keys(dirties).reduce((acc: any, key) => {
       acc[key] = data[key as keyof ProfileFormValues];
@@ -83,8 +81,9 @@ export function ProfileForm() {
     }, {});
 
     if (updatedFields.length === 0) {
-      return toast.warning("No changes to save");
+      return toast.info("No changes to save");
     }
+
     try {
       await updateProfile.mutateAsync(updatedFields);
     } catch (error: any) {
@@ -93,8 +92,8 @@ export function ProfileForm() {
   };
 
   // Helpers for UI states
-  const isLoading = updateProfile.isLoading || loadingInitialData;
-  const isDirty = Object.keys(form.formState.dirtyFields).length > 0;
+  const isLoading = loadingInitialData || updateProfile.isLoading;
+  const isDirty = form.formState.isDirty;
 
   return (
     <Form {...form}>
