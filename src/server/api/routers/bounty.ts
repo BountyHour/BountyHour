@@ -37,6 +37,18 @@ export const bountyRouter = createTRPCRouter({
     });
   }),
 
+  getCreatedOrAssignedBounties: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.bounty.findMany({
+      orderBy: { updatedAt: "desc" },
+      where: {
+        OR: [
+          { createdBy: { id: ctx.session.user.id } },
+          { assignedTo: { id: ctx.session.user.id } },
+        ],
+      },
+    });
+  }),
+
   getBountiesByTag: protectedProcedure
     .input(
       z.object({

@@ -1,7 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { profileFormSchema } from "@/app/api/formschema/user";
-import { Prisma } from "@prisma/client";
-import { setTimeout } from "timers/promises";
+import { profileFormSchema } from "@/app/api/formschema/user/profile";
 import { withFieldMappedErrors } from "@/lib/prismaUtils";
 
 export const userRouter = createTRPCRouter({

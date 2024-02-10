@@ -30,7 +30,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { api } from "@/trpc/react";
-import { profileFormSchema } from "@/app/api/formschema/user";
+import { profileFormSchema } from "@/app/api/formschema/user/profile";
 import { Timezone, ProfilePrivacy } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { Loader2, ShieldCheck, ShieldEllipsis, ShieldOff } from "lucide-react";
