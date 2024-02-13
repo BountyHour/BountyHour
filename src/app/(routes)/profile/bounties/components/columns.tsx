@@ -49,7 +49,7 @@ export const columns: ColumnDef<Bounty>[] = [
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[350px] truncate font-medium">
-            <Link href={`/bounty/${row.getValue("id")}`}>
+            <Link href={`/bounty/${row.original.id}`}>
               {row.getValue("title")}
             </Link>
           </span>

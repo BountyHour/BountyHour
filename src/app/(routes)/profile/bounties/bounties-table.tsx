@@ -15,6 +15,5 @@ export function BountiesTable() {
 
   // data will be undefined until the query completes, so provide a fallback
   const bounties = data || [];
-
   return <DataTable columns={columns} data={bounties} />;
 }
