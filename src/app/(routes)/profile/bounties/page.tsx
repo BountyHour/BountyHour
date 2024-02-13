@@ -4,7 +4,7 @@ import path from "path";
 import { z } from "zod";
 import { columns } from "./components/columns";
 import { taskSchema } from "./data/schema";
-import { DataTable } from "./components/data-table";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 // Simulate a database read for tasks.
 async function getTasks() {
