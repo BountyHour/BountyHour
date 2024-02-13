@@ -5,11 +5,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 
 import { labels, priorities, statuses } from "../data/data";
-import { Task } from "../data/schema";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import Link from "next/link";
+import { Bounty } from "@prisma/client";
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<Bounty>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => (

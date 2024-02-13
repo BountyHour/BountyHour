@@ -1,24 +1,7 @@
 import { Separator } from "@/components/ui/separator";
-import { promises as fs } from "fs";
-import path from "path";
-import { z } from "zod";
-import { columns } from "./components/columns";
-import { taskSchema } from "./data/schema";
-import { DataTable } from "@/components/ui/data-table/data-table";
-
-// Simulate a database read for tasks.
-async function getTasks() {
-  const data = await fs.readFile(
-    path.join(process.cwd(), "src/app/fake-sample-data.json"),
-  );
-
-  const tasks = JSON.parse(data.toString());
-
-  return z.array(taskSchema).parse(tasks);
-}
+import { BountiesTable } from "./bounties-table";
 
 export default async function SettingsBountiesPage() {
-  const tasks = await getTasks();
   return (
     <div className="space-y-6">
       <div>
@@ -28,7 +11,7 @@ export default async function SettingsBountiesPage() {
         </p>
       </div>
       <Separator />
-      <DataTable data={tasks} columns={columns} />
+      <BountiesTable />
     </div>
   );
 }

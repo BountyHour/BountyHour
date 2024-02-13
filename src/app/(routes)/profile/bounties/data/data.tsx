@@ -22,28 +22,33 @@ export const labels = [
 
 export const statuses = [
   {
-    value: "backlog",
-    label: "Backlog",
+    value: "DRAFT",
+    label: "Draft",
     icon: HelpCircle,
   },
   {
-    value: "todo",
-    label: "Todo",
+    value: "OPEN",
+    label: "Open",
     icon: Badge,
   },
   {
-    value: "in progress",
+    value: "IN_PROGRESS",
     label: "In Progress",
     icon: Timer,
   },
   {
-    value: "done",
-    label: "Done",
+    value: "SUBMITTED",
+    label: "Submitted",
     icon: BadgeCheck,
   },
   {
-    value: "canceled",
-    label: "Canceled",
+    value: "COMPLETED",
+    label: "Completed",
+    icon: BadgeCheck,
+  },
+  {
+    value: "FAILED",
+    label: "Failed",
     icon: XCircle,
   },
 ];
