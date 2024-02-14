@@ -1,7 +1,10 @@
 import { Separator } from "@/components/ui/separator";
 import { BountiesTable } from "./bounties-table";
 
+import { getServerAuthSession } from "@/server/auth";
+
 export default async function SettingsBountiesPage() {
+  const session = await getServerAuthSession();
   return (
     <div className="space-y-6">
       <div>
@@ -11,7 +14,7 @@ export default async function SettingsBountiesPage() {
         </p>
       </div>
       <Separator />
-      <BountiesTable />
+      <BountiesTable userId={session?.user.id} />
     </div>
   );
 }

@@ -9,7 +9,11 @@ import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-col
 import Link from "next/link";
 import { Bounty } from "@prisma/client";
 
-export const columns: ColumnDef<Bounty>[] = [
+export const getColumns = ({
+  userId,
+}: {
+  userId: string;
+}): ColumnDef<Bounty>[] => [
   {
     accessorKey: "status",
     header: ({ column }) => (
@@ -43,7 +47,8 @@ export const columns: ColumnDef<Bounty>[] = [
       <DataTableColumnHeader column={column} title="Bounty" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label);
+      const labelLetter = row.original.createdById === userId ? "P" : "H";
+      const label = labels.find((label) => label.value === labelLetter);
 
       return (
         <div className="flex space-x-2">
