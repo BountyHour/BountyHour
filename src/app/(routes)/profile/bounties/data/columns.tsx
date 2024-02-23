@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 
-import { labels, statuses } from "../data/data";
+import { labels, statuses } from "./mappings";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import Link from "next/link";
 import TimeAgo from "react-timeago";
@@ -14,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Bounty } from "@prisma/client";
 
 export const getColumns = ({
   userId,
@@ -58,7 +59,16 @@ export const getColumns = ({
 
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
+          {label && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Badge variant="outline">{label.label}</Badge>
+                </TooltipTrigger>
+                <TooltipContent>{label.tooltip}</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
           <span className="max-w-[350px] truncate font-medium">
             <Link href={`/bounty/${row.original.id}`}>
               {row.getValue("title")}
@@ -100,7 +110,10 @@ export const getColumns = ({
       );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
+      return (
+        new Date(row.getValue("updatedAt")).getTime() >
+        new Date().getTime() - value * 1000
+      );
     },
   },
 ];

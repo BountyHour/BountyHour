@@ -10,7 +10,7 @@ import { DataTableViewOptions } from "@/components/ui/data-table/data-table-view
 import {
   dateRanges,
   statuses,
-} from "@/app/(routes)/profile/bounties/data/data";
+} from "@/app/(routes)/profile/bounties/data/mappings";
 import { DataTableFacetedFilter } from "@/components/ui/data-table/data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
