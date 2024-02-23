@@ -4,6 +4,7 @@ import { getColumns } from "./data/columns";
 import { api } from "@/trpc/react";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { ReactElement } from "react";
+import { BountiesTableToolbar } from "./data/toolbar";
 
 export function BountiesTable({
   userId,
@@ -17,10 +18,16 @@ export function BountiesTable({
   );
 
   if (error || userId === null) {
-    console.error(error);
+    return <>console.error(error);</>;
   }
 
   // data will be undefined until the query completes, so provide a fallback
   const bounties = data || [];
-  return <DataTable columns={getColumns({ userId })} data={bounties} />;
+  return (
+    <DataTable
+      toolbarComponent={BountiesTableToolbar}
+      columns={getColumns({ userId })}
+      data={bounties}
+    />
+  );
 }

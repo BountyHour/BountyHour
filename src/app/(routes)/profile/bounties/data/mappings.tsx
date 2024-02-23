@@ -49,27 +49,27 @@ export const statuses = [
 export const dateRanges = [
   {
     label: "Today",
-    value: 60 * 60 * 24,
+    value: (60 * 60 * 24).toString(),
     icon: Timer,
   },
   {
     label: "This week",
-    value: 60 * 60 * 24 * 7,
+    value: (60 * 60 * 24 * 7).toString(),
     icon: Timer,
   },
   {
     label: "This month",
-    value: 60 * 60 * 24 * 31,
+    value: (60 * 60 * 24 * 31).toString(),
     icon: Timer,
   },
   {
     label: "This quarter",
-    value: 60 * 60 * 24 * 93,
+    value: (60 * 60 * 24 * 93).toString(),
     icon: Timer,
   },
   {
     label: "This year",
-    value: 60 * 60 * 24 * 365,
+    value: (60 * 60 * 24 * 365).toString(),
     icon: Timer,
   },
 ];

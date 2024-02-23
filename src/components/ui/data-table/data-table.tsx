@@ -26,16 +26,18 @@ import {
 } from "@/components/ui/table";
 
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
+import { BountiesTableToolbar } from "../../../app/(routes)/profile/bounties/data/toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  toolbarComponent: React.ComponentType<any>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  toolbarComponent: ToolbarComponent,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -69,7 +71,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <ToolbarComponent table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
