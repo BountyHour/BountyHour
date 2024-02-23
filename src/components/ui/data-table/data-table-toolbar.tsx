@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/ui/data-table/data-table-view-options";
 
 import {
-  priorities,
+  dateRanges,
   statuses,
-} from "../../../app/(routes)/profile/bounties/data/data";
+} from "@/app/(routes)/profile/bounties/data/data";
 import { DataTableFacetedFilter } from "@/components/ui/data-table/data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
@@ -40,11 +40,11 @@ export function DataTableToolbar<TData>({
             options={statuses}
           />
         )}
-        {table.getColumn("priority") && (
+        {table.getColumn("updatedAt") && (
           <DataTableFacetedFilter
-            column={table.getColumn("priority")}
-            title="Priority"
-            options={priorities}
+            column={table.getColumn("updatedAt")}
+            title="Updated"
+            options={dateRanges}
           />
         )}
         {isFiltered && (

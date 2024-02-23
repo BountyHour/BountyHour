@@ -4,10 +4,16 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 
-import { labels, priorities, statuses } from "../data/data";
+import { labels, statuses } from "../data/data";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import Link from "next/link";
-import { Bounty } from "@prisma/client";
+import TimeAgo from "react-timeago";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const getColumns = ({
   userId,
@@ -63,25 +69,33 @@ export const getColumns = ({
     },
   },
   {
-    accessorKey: "priority",
+    accessorKey: "updatedAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Priority" />
+      <DataTableColumnHeader column={column} title="Updated" />
     ),
     cell: ({ row }) => {
-      const priority = priorities.find(
-        (priority) => priority.value === row.getValue("priority"),
-      );
-
-      if (!priority) {
-        return null;
-      }
-
       return (
         <div className="flex items-center">
-          {priority.icon && (
-            <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{priority.label}</span>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <TimeAgo
+                  date={(row.getValue("updatedAt") as Date).toISOString()}
+                  title=""
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                {new Intl.DateTimeFormat("en-GB", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                }).format(new Date(row.getValue("updatedAt")))}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       );
     },

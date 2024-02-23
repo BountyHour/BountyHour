@@ -1,13 +1,4 @@
-import {
-  ChevronDown,
-  ChevronRight,
-  ChevronUp,
-  BadgeCheck,
-  Badge,
-  XCircle,
-  HelpCircle,
-  Timer,
-} from "lucide-react";
+import { BadgeCheck, Badge, XCircle, HelpCircle, Timer } from "lucide-react";
 
 export const labels = [
   {
@@ -53,20 +44,35 @@ export const statuses = [
   },
 ];
 
-export const priorities = [
+export const dateRanges = [
   {
-    label: "Low",
-    value: "low",
-    icon: ChevronDown,
+    label: "Today",
+    value: "today",
+    icon: Timer,
   },
   {
-    label: "Medium",
-    value: "medium",
-    icon: ChevronRight,
+    label: "Yesterday",
+    value: "yesterday",
+    icon: Timer,
   },
   {
-    label: "High",
-    value: "high",
-    icon: ChevronUp,
+    label: "Last 7 days",
+    value: "last7days",
+    icon: Timer,
+  },
+  {
+    label: "Last 30 days",
+    value: "last30days",
+    icon: Timer,
+  },
+  {
+    label: "Last 90 days",
+    value: "last90days",
+    icon: Timer,
+  },
+  {
+    label: "Last 365 days",
+    value: "last365days",
+    icon: Timer,
   },
 ];
