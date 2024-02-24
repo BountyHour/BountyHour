@@ -69,7 +69,7 @@ export const getColumns = ({
               </Tooltip>
             </TooltipProvider>
           )}
-          <span className="max-w-[350px] truncate font-medium">
+          <span className="truncate font-medium">
             <Link href={`/bounty/${row.original.id}`}>
               {row.getValue("title")}
             </Link>

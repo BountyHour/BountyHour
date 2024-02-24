@@ -44,6 +44,8 @@ export function BountiesTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("updatedAt")}
             title="Updated"
+            canSearch={false}
+            canMultiSelect={false}
             options={dateRanges}
           />
         )}
