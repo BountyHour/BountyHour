@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BadgeCheck, BadgePlus } from "lucide-react";
+import { BadgeCheck, EyeOff, Filter } from "lucide-react";
 import { Column } from "@tanstack/react-table";
 
 import { cn } from "@/lib/utils";
@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -42,12 +43,13 @@ export function DataTableFacetedFilter<TData, TValue>({
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   return (
-    <Popover>
+    <Popover open={filterOpen} onOpenChange={setFilterOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" className="h-8 border-dashed">
-          <BadgePlus className="mr-2 h-4 w-4" />
+          <Filter className="mr-2 h-4 w-4" />
           {title}
           {selectedValues?.size > 0 && (
             <>
@@ -105,8 +107,13 @@ export function DataTableFacetedFilter<TData, TValue>({
                       } else {
                         selectedValues.clear();
                         selectedValues.add(option.value);
+                        setFilterOpen(false);
                       }
-                      column?.setFilterValue(Array.from(selectedValues));
+
+                      const filterValues = Array.from(selectedValues);
+                      column?.setFilterValue(
+                        filterValues.length ? filterValues : undefined,
+                      );
                     }}
                   >
                     {canMultiSelect && (

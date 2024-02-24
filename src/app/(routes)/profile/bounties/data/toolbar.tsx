@@ -31,7 +31,7 @@ export function BountiesTableToolbar<TData>({
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-8 max-w-[150px] lg:max-w-[250px]"
         />
         {table.getColumn("status") && (
           <DataTableFacetedFilter
@@ -55,7 +55,7 @@ export function BountiesTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
             className="h-8 px-2 lg:px-3"
           >
-            Reset
+            Clear
             <X className="ml-2 h-4 w-4" />
           </Button>
         )}

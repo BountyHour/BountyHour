@@ -63,9 +63,9 @@ export const getColumns = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <Badge variant="outline">{label.label}</Badge>
+                  <label.icon className="h-4 w-4 text-muted-foreground" />
                 </TooltipTrigger>
-                <TooltipContent>{label.tooltip}</TooltipContent>
+                <TooltipContent>{label.label}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           )}
