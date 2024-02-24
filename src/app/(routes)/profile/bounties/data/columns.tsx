@@ -2,8 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge";
-
 import { labels, statuses } from "./mappings";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import Link from "next/link";

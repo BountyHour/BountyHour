@@ -3,7 +3,7 @@ import { SecurityForm } from "@/app/(routes)/profile/security/security-form";
 
 export default function SettingsSecurityPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 lg:max-w-2xl">
       <div>
         <h3 className="text-lg font-medium">Security</h3>
         <p className="text-sm text-muted-foreground">
